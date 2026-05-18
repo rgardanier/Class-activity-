@@ -60,9 +60,17 @@ def update_stock(item, INVENTORY):
 # ============================================================
 # 3: LOYALTY — Membership lookup and discounts
 # ============================================================
+customer_id = input("Enter Membership ID (or enter to skip)" )
 
+def check_membership(customer_id, MEMBERS):
+    if customer_id in MEMBERS.keys():
+        name = MEMBERS [customer_id]["name"]
+        discount = MEMBERS [customer_id]["discount"]
+        return f"Welcome back, {name}! Your discount is {discount*100}%."
+    else:
+        return "No membership found. No discount applied."
 
-
+print(check_membership(customer_id, MEMBERS))
 
 # ============================================================
 # 4: RECEIPTS & TAX — Tax calculation and receipt
