@@ -98,8 +98,24 @@ def update_stock(item, INVENTORY):
 # 4: RECEIPTS & TAX — Tax calculation and receipt
 # ============================================================
 
+def calculate_tax(amount):
+    tax_rate = 0.07  # 7% sales tax
+    return amount * tax_rate
 
+def generate_receipt(cart, subtotal, discount, tax, total, customer_name):
 
+    receipt = "\n--- FreshCart Receipt ---\n"
+    receipt += f"Customer: {customer_name}\n\n"
+
+    for item in cart:
+        receipt += f"{item['name']} - ${item['price']:.2f}\n"
+
+    receipt += f"\nSubtotal: ${subtotal:.2f}"
+    receipt += f"\nDiscount: -${discount:.2f}"
+    receipt += f"\nTax: ${tax:.2f}"
+    receipt += f"\nTotal: ${total:.2f}"
+
+    return receipt
 
 # ============================================================
 # MAIN — The CEO wires everything together
