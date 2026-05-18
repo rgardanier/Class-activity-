@@ -38,7 +38,37 @@ MEMBERS = {
 # ============================================================
 # 1: CHECKOUT — Scan items and calculate subtotal
 # ============================================================
+def scan_item(item, INVENTORY):
+    scanned_items = []
+    qty = 0
+    for key in INVENTORY.keys():
+        if key == item and qty < 1:
+            scanned_item = key
+            qty = 1
+            scanned_item_dict = {"scanned_item":scanned_item, "qty":qty}
+            scanned_items.append(scanned_item_dict)
+        if key == item:
+            for i in range(len(scanned_items)):
+                if item == scanned_items[i]['scanned_item']:
+                    scanned_items[i]['qty'] += 1
+                else:
+                    qty = 1
+    return scanned_items
 
+item1 = input("Item: ")
+item2 = input("Item: ")
+scanned = scan_item(item1, INVENTORY)
+scanned2 = scan_item(item2, INVENTORY)
+print(scanned)
+print(scanned2)
+
+
+
+def calculate_subtotal(cart):
+    subtotal = 0
+    for i in range(len(cart)):
+        subtotal += cart[i]
+    return subtotal
 
 
 
