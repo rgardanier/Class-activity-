@@ -34,6 +34,7 @@ MEMBERS = {
     "M003": {"name": "Emma Davis",     "discount": 0.05},
 }
 
+cart = []
 
 # ============================================================
 # 1: CHECKOUT — Scan items and calculate subtotal
@@ -42,35 +43,27 @@ def scan_item(item, INVENTORY):
     
     if item in INVENTORY.keys():
         item_found = False
-        for i in range(len(scanned_items)):
-            if item == scanned_items[i]['scanned_item']:
+        for i in range(len(cart)):
+            if item == cart[i]['scanned_item']:
                 item_found = True
         if item_found:
-            scanned_items[i]['qty'] += 1
+            cart[i]['qty'] += 1
         else:
             scanned_item = item
             qty = 1
-            scanned_item_dict = {"scanned_item":scanned_item, "qty":qty}
-            scanned_items.append(scanned_item_dict)
-    return scanned_items
+            price = INVENTORY[item]['price']
+            scanned_item_dict = {"scanned_item":scanned_item, "qty":qty, "price":price}
+            cart.append(scanned_item_dict)
+    return cart
 
-# scanned_items = []
-# item1 = input("Item: ")
-# item2 = input("Item: ")
-# scanned = scan_item(item1, INVENTORY)
-# scanned2 = scan_item(item2, INVENTORY)
-# print(scanned)
-# print(scanned2)
 
-# cart = []
-# cart.append(scanned2)
 
-# def calculate_subtotal(cart):
-#     subtotal = 0
-#     for i in range(len(cart)):
-#         subtotal += cart[i]
-#     return subtotal
-
+def calculate_subtotal(cart):
+    subtotal = 0
+    for i in range(len(cart)):
+        category_price = cart[i]['price']*cart[i]['qty']
+        subtotal += category_price
+    return subtotal
 
 
 # ============================================================
@@ -153,9 +146,9 @@ def main():
             print(f"  Item '{item}' not found in system.")
             continue
 
-        cart.append(scanned)
+        cart = scanned
         update_stock(item, INVENTORY)
-        print(f"  Added: {scanned['name']} — ${scanned['price']:.2f}")
+        print(f"  Added: {item} — ${INVENTORY[item]['price']:.2f}")
 
     if not cart:
         print("\nNo items scanned. Goodbye!")
